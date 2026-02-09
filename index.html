@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Valentino 💘</title>
+
+<style>
+body {
+  margin: 0;
+  background: pink;
+  height: 100vh;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* VIDEO CENTRATO */
+/* VIDEO CENTRATO SOPRA LE SCRITTE */
+video {
+  position: fixed;
+  top: 10%;            /* leggermente in alto */
+  left: 50%;
+  width: 600px;        /* larghezza fissa per PC */
+  max-width: 80%;      /* adattabile su schermi più piccoli */
+  height: auto;        /* altezza proporzionata */
+  transform: translateX(-50%); /* centrato orizzontalmente */
+  object-fit: cover;
+  z-index: 1;
+  border-radius: 20px; /* opzionale, rende più carino */
+}
+
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* TESTO */
+.text {
+  color: white;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding: 30px;
+  text-shadow: 0 0 12px black;
+}
+
+/* BOTTONI */
+.buttons {
+  display: flex;
+  gap: 12px;
+  padding: 50px;
+}
+
+button {
+  flex: 1;
+  padding: 16px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: all 0.35s ease;
+}
+
+#yes {
+  background: rgba(46,204,113,0.9);
+  color: white;
+  order: 1;
+}
+#no {
+  background: rgba(231,76,60,0.85);
+  color: white;
+  order: 2;
+}
+</style>
+</head>
+
+<body>
+
+<video autoplay loop muted playsinline>
+  <source src="video/minions.mp4" type="video/mp4">
+</video>
+
+<div class="overlay">
+  <div class="text" id="text">
+    Vuoi essere il mio San Valentino? ❤️
+  </div>
+
+  <div class="buttons">
+    <button id="yes">SÌ 💘</button>
+    <button id="no">NO 💔</button>
+  </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+
+let noCount = 0;
+let yesScale = 1;
+let noScale = 1;
+let noTranslateX = 0; // ✅ dichiarata la variabile
+
+const noTexts = [
+  "Sei sicura? 🥺",
+  "Daiii 😭",
+  "Ti pregooo 💔",
+  "Non fare così 😢",
+  "Ma davvero? 😭",
+  "Pensaci bene 😞",
+  "Ultima scelta 😳",
+  "Ancora NO?! 😩",
+  "Ok basta 😶",
+  "Non puoi scappare "
+];
+
+noBtn.addEventListener("click", () => {
+  noCount++;
+
+  // cambia testo NO
+  noBtn.innerText = noTexts[Math.min(noCount - 1, noTexts.length - 1)];
+
+  // ingrandisce il SÌ lentamente
+  yesScale += 0.1;
+  yesBtn.style.transform = `scale(${yesScale})`;
+
+  // riduce il NO ad ogni click
+  noScale -= 0.05;
+  if (noScale < 0.3) noScale = 0.3;
+
+  // sposta leggermente il NO a destra ad ogni click
+  noTranslateX += 10; // px
+  noBtn.style.transform = `scale(${noScale}) translateX(${noTranslateX}px)`; // ✅ combinato
+
+  // dopo 10 click: SÌ domina tutto, NO sparisce
+  if (noCount >= 11) {
+    yesBtn.style.position = "fixed";
+    yesBtn.style.bottom = "0";
+    yesBtn.style.left = "0";
+    yesBtn.style.width = "100%";
+    yesBtn.style.height = "50%";
+    yesBtn.style.borderRadius = "0";
+    yesBtn.style.fontSize = "2.2rem";
+    noBtn.style.display = "none";
+  }
+});
+
+yesBtn.addEventListener("click", () => {
+  document.body.innerHTML = `
+    <video autoplay loop muted playsinline style="
+      position:fixed; 
+      top:10%; 
+      left:50%; 
+      width:600px; 
+      height:80%; 
+      transform:translateX(-50%); 
+      object-fit: cover; 
+      z-index:1;
+      border-radius; 20px;">
+      <source src="video/bubu.mp4" type="video/mp4">
+    </video>
+    <div style="
+      position:fixed;
+      bottom:30px;      /* testo in basso */
+      left:50%;
+      transform:translateX(-50%);  /* centrato orizzontalmente */
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      color:white;
+      text-align:center;
+      z-index:2;
+      text-shadow:0 0 12px black;
+      font-size:1.8rem;">
+      💖 Sapevo che avresti detto SÌ 💖<br><br>
+    </div>
+  `;
+});
+
+</script>
+
+</body>
+</html>
