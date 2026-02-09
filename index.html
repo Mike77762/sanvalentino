@@ -18,19 +18,17 @@ body {
   align-items: center;
 }
 
-/* VIDEO CENTRATO */
-/* VIDEO CENTRATO SOPRA LE SCRITTE */
 video {
   position: fixed;
-  top: 10%;            /* leggermente in alto */
+  top: 10%;            
   left: 50%;
-  width: 600px;        /* larghezza fissa per PC */
-  max-width: 80%;      /* adattabile su schermi più piccoli */
-  height: auto;        /* altezza proporzionata */
-  transform: translateX(-50%); /* centrato orizzontalmente */
+  width: 600px;        
+  max-width: 80%;      
+  height: auto;        
+  transform: translateX(-50%); 
   object-fit: cover;
   z-index: 1;
-  border-radius: 20px; /* opzionale, rende più carino */
+  border-radius: 20px; 
 }
 
 
@@ -108,7 +106,7 @@ const yesBtn = document.getElementById("yes");
 let noCount = 0;
 let yesScale = 1;
 let noScale = 1;
-let noTranslateX = 0; // ✅ dichiarata la variabile
+let noTranslateX = 0; 
 
 const noTexts = [
   "Sei sicura? 🥺",
@@ -126,22 +124,17 @@ const noTexts = [
 noBtn.addEventListener("click", () => {
   noCount++;
 
-  // cambia testo NO
   noBtn.innerText = noTexts[Math.min(noCount - 1, noTexts.length - 1)];
 
-  // ingrandisce il SÌ lentamente
   yesScale += 0.1;
   yesBtn.style.transform = `scale(${yesScale})`;
 
-  // riduce il NO ad ogni click
   noScale -= 0.05;
   if (noScale < 0.3) noScale = 0.3;
 
-  // sposta leggermente il NO a destra ad ogni click
-  noTranslateX += 10; // px
-  noBtn.style.transform = `scale(${noScale}) translateX(${noTranslateX}px)`; // ✅ combinato
+  noTranslateX += 10;
+  noBtn.style.transform = `scale(${noScale}) translateX(${noTranslateX}px)`;
 
-  // dopo 10 click: SÌ domina tutto, NO sparisce
   if (noCount >= 11) {
     yesBtn.style.position = "fixed";
     yesBtn.style.bottom = "0";
