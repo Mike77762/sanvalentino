@@ -14,86 +14,114 @@ Versione : .0
 body {
   margin: 0;
   background: pink;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-video {
-  position: fixed;
-  top: 10%;            
-  left: 50%;
-  width: 600px;        
-  max-width: 80%;      
-  height: auto;        
-  transform: translateX(-50%); 
-  object-fit: cover;
-  z-index: 1;
-  border-radius: 20px; 
-}
-
-
-/* OVERLAY */
-.overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 2;
+/* CONTAINER PRINCIPALE */
+.container {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* VIDEO QUADRATO */
+video {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
 /* TESTO */
 .text {
   color: white;
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  padding: 30px;
   text-shadow: 0 0 12px black;
+  padding: 0 20px;
 }
 
 /* BOTTONI */
 .buttons {
   display: flex;
-  gap: 12px;
-  padding: 50px;
+  gap: 15px;
+  width: 100%;
+  max-width: 400px;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 button {
   flex: 1;
-  padding: 16px;
+  padding: 18px;
   font-size: 1.1rem;
   border: none;
   border-radius: 40px;
   cursor: pointer;
   transition: all 0.35s ease;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 #yes {
   background: rgba(46,204,113,0.9);
   color: white;
-  order: 1;
 }
+
 #no {
   background: rgba(231,76,60,0.85);
   color: white;
-  order: 2;
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 600px) {
+  .text {
+    font-size: 1.3rem;
+  }
+  
+  button {
+    font-size: 1rem;
+    padding: 15px;
+  }
+  
+  video {
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 400px) {
+  .text {
+    font-size: 1.1rem;
+  }
+  
+  video {
+    max-width: 300px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<video autoplay loop muted playsinline>
-  <source src="https://res.cloudinary.com/dks7usyne/video/upload/v1770202230/minions_u6nwgz.mov" type="video/mp4"" type="video/mp4">
-</video>
+<div class="container" id="mainContainer">
+  <video autoplay loop muted playsinline>
+    <source src="https://res.cloudinary.com/dks7usyne/video/upload/v1770202230/minions_u6nwgz.mov" type="video/mp4">
+  </video>
 
-<div class="overlay">
   <div class="text" id="text">
     Vuoi essere il mio San Valentino? ❤️
   </div>
@@ -111,7 +139,7 @@ const yesBtn = document.getElementById("yes");
 let noCount = 0;
 let yesScale = 1;
 let noScale = 1;
-let noTranslateX = 0; 
+let noTranslateX = 0;
 
 const noTexts = [
   "Sei sicura? 🥺",
@@ -147,39 +175,43 @@ noBtn.addEventListener("click", () => {
     yesBtn.style.width = "100%";
     yesBtn.style.height = "50%";
     yesBtn.style.borderRadius = "0";
-    yesBtn.style.fontSize = "2.2rem";
+    yesBtn.style.fontSize = "2rem";
+    yesBtn.style.zIndex = "999";
     noBtn.style.display = "none";
   }
 });
 
 yesBtn.addEventListener("click", () => {
   document.body.innerHTML = `
-    <video autoplay loop muted playsinline style="
-      position:fixed; 
-      top:10%; 
-      left:50%; 
-      width:600px; 
-      height:80%; 
-      transform:translateX(-50%); 
-      object-fit: cover; 
-      z-index:1;
-      border-radius; 20px;">
-      <source src="https://res.cloudinary.com/dks7usyne/video/upload/v1770202271/bubu_jepnnr.mp4" type="video/mp4">
-    </video>
     <div style="
-      position:fixed;
-      bottom:30px;      /* testo in basso */
-      left:50%;
-      transform:translateX(-50%);  /* centrato orizzontalmente */
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      color:white;
-      text-align:center;
-      z-index:2;
-      text-shadow:0 0 12px black;
-      font-size:1.8rem;">
-      💖 Sapevo che avresti detto SÌ 💖<br><br>
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+      gap: 30px;">
+      
+      <video autoplay loop muted playsinline style="
+        width: 100%;
+        max-width: 400px;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);">
+        <source src="https://res.cloudinary.com/dks7usyne/video/upload/v1770202271/bubu_jepnnr.mp4" type="video/mp4">
+      </video>
+      
+      <div style="
+        color: white;
+        text-align: center;
+        text-shadow: 0 0 12px black;
+        font-size: 1.5rem;
+        font-weight: bold;
+        padding: 0 20px;">
+        💖 Sapevo che avresti detto SÌ 💖
+      </div>
     </div>
   `;
 });
